@@ -65,7 +65,7 @@ class ApplicationController < ActionController::Base
 
   def verify_token(token)
     options = {
-      algorithm: 'ES256',
+      algorithm: 'ES512',
       verify_iss: true,
       verify_iat: true,
       iss: AUTHIFY_JWT_ISSUER

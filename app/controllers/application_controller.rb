@@ -55,9 +55,7 @@ class ApplicationController < ActionController::Base
     unless logged_in?
       flash.now[:danger] = 'You must login to continue!'
       session[:before_login] = request.original_url
-      #rurl = URI(login_path)
-      # Just for demo
-      rurl = URI('http://auth.knuedge.com:3000/login')
+      rurl = URI(login_path)
       callback_url = AUTHIFY_PUBLIC_URL.dup
       callback_url.path = '/callback'
       rurl.query = "callback=#{Base64.encode64(callback_url.to_s).chomp}"
@@ -79,10 +77,11 @@ class ApplicationController < ActionController::Base
   end
 
   def api_auth_headers
-    {
+    base = {
       x_authify_access: AUTHIFY_ACCESS_KEY,
-      x_authify_secret: AUTHIFY_SECRET_KEY,
-      x_authify_on_behalf_of: current_user['username']
+      x_authify_secret: AUTHIFY_SECRET_KEY
     }
+    base[:x_authify_on_behalf_of] = current_user['username'] if current_user
+    base
   end
 end

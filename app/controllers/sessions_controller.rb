@@ -1,6 +1,7 @@
 class SessionsController < ApplicationController
   def new
     @callback_url = callback_url(params[:callback])
+    render layout: 'minimal'
   end
 
   def create

@@ -12,8 +12,7 @@ gem 'uglifier', '>= 1.3.0'
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '~> 4.2'
 # See https://github.com/rails/execjs#readme for more supported runtimes
-# gem 'therubyracer', platforms: :ruby
-
+gem 'therubyracer', platforms: :ruby
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
@@ -47,8 +46,14 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 
 # Custom requirements
+source 'https://rails-assets.org' do
+  gem 'rails-assets-tether', '>= 1.3.3'
+end
+
 gem 'authify-core'
 gem 'gravatarify', '~> 3.1'
+gem 'font-awesome-sass', '~> 4.7.0'
+gem 'bootstrap', '~> 4.0.0.alpha6'
 gem 'redis-rails', '~> 5'
 gem 'json_api_client', '~> 1.4'
 gem 'rest-client', '~> 1.8'

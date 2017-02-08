@@ -21,10 +21,10 @@ class ApplicationController < ActionController::Base
     if skip_auth?
       # Don't bother with auth if we're supposed to skip it
       true
-    elsif session[:last_authenticated_action] && session[:last_authenticated_action] < 1.hour.ago
+    elsif session[:last_authenticated_action] && Time.parse(session[:last_authenticated_action].to_s) > 1.hour.ago
       session[:last_authenticated_action] = Time.now
       true
-    elsif session[:authenticated] && session[:authenticated] > 1.hour.ago
+    elsif session[:authenticated] && Time.parse(session[:authenticated].to_s) > 1.hour.ago
       # If they have authenticated and it hasn't expired
       session[:last_authenticated_action] = Time.now
       true
@@ -34,9 +34,14 @@ class ApplicationController < ActionController::Base
   end
 
   def cached_public_key
+    @cached_jwt_key ||= public_key
+  end
+
+  def public_key
+    pubkey_url = URI(AUTHIFY_API_URL.dup)
+    pubkey_url.path = '/jwt/key'
     # TODO handle key lookup errors
-    @cached_jwt_key ||= RestClient.get("#{AUTHIFY_API_URL}/jwt/key").body
-    OpenSSL::PKey::EC.new @cached_jwt_key
+    OpenSSL::PKey::EC.new(JSON.parse(RestClient.get(pubkey_url.to_s).body)['data'])
   end
 
   def skip_auth?
@@ -65,10 +70,10 @@ class ApplicationController < ActionController::Base
 
   def verify_token(token)
     options = {
-      algorithm: 'ES512',
+      algorithm: Authify::Core::CONFIG[:jwt][:algorithm],
       verify_iss: true,
       verify_iat: true,
-      iss: AUTHIFY_JWT_ISSUER
+      iss: Authify::Core::CONFIG[:jwt][:issuer]
     }
     payload, _header = JWT.decode token, cached_public_key, true, options
     session[:authenticated] = Time.now

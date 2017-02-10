@@ -15,7 +15,7 @@ class ApplicationController < ActionController::Base
   end
 
   def callback_url(encoded_url)
-    URI(Base64.decode64(encoded_url))
+    encoded_url ? URI(Base64.decode64(encoded_url)) : root_path
   end
 
   def authenticated?
@@ -86,7 +86,7 @@ class ApplicationController < ActionController::Base
 
   def setup_munson
     Munson.configure(url: AUTHIFY_API_URL.to_s, response_key_format: :dasherize) do |c|
-      c.use Middleware::AuthifyTrustedDelegate, email: current_user['username']
+      c.use Middleware::AuthifyTrustedDelegate, email: current_user ? current_user['username'] : nil
     end
   end
 end

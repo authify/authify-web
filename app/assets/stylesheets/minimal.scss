@@ -1,6 +1,7 @@
 @import "bootstrap";
 @import "font-awesome-sprockets";
 @import "font-awesome";
+@import "bootstrap-social";
 
 html {
   height: 100%;
@@ -42,7 +43,6 @@ div.gradient-container {
   max-width: 400px;
   padding: 15px;
   margin: 0 auto;
-  min-height: 100%;
 }
 .form-signin .form-signin-heading,
 .form-signin .checkbox {
@@ -79,10 +79,15 @@ div.gradient-container {
   color: #fff;
 }
 
-a, a:visited {
+.thin {
+  max-width: 375px;
+  margin: 0 auto;
+}
+
+a.orange, a:visited.orange {
   color: #e16e2f;
 }
 
-a:hover {
+a:hover.orange {
   color: #c14e0f;
 }

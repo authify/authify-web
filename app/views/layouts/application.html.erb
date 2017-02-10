@@ -35,6 +35,9 @@
           <li class="nav-item">
             <%= link_to icon(:user), me_path, class: 'nav-link' %>
           </li>
+          <li class="nav-item">
+            <%= link_to icon('sign-out'), logout_path, method: :delete, class: 'nav-link' %>
+          </li>
         </ul>
       </div>
     </nav>

@@ -1,2 +1,9 @@
-class Group < JsonResourceBase
+class Group < Munson::Resource
+  self.type = :groups
+
+  has_many :users
+  has_one :organization
+
+  key_type :integer
+  attribute :name, :string
 end

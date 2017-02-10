@@ -1,13 +1,16 @@
 class UsersController < ApplicationController
   def index
-    @users = User.with_headers(api_auth_headers) do
-      User.all
-    end
+    @users = User.fetch
   end
 
   def me
-    @user = User.with_headers(api_auth_headers) do
-      User.find(current_user['uid']).first
-    end
+    @user = User.include(:identities, :'api-keys').find(current_user['uid'])
+  end
+
+  def signup
+    @user = User.new
+  end
+
+  def register
   end
 end

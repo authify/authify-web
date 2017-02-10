@@ -1,7 +1,9 @@
 class SessionsController < ApplicationController
+  skip_before_action :setup_munson
+  layout 'minimal'
+
   def new
     @callback_url = callback_url(params[:callback])
-    render layout: 'minimal'
   end
 
   def create
@@ -13,6 +15,25 @@ class SessionsController < ApplicationController
     else
       flash.now[:danger] = 'Invalid login/password combination'
       render 'new'
+    end
+  end
+
+  def signup
+    @callback_url = callback_url(params[:callback])
+  end
+
+  def register
+    email = params[:registration][:email]
+    name = params[:registration][:name]
+    password = params[:registration][:password]
+
+    token = User.register(email, name, password)
+    if token
+      rurl = URI(params[:registration][:callback])
+      rurl.query = rurl.query ? rurl.query + "jwt=#{token}" : "jwt=#{token}"
+      redirect_to rurl.to_s
+    else
+      raise 'Registration Failed'
     end
   end
 
@@ -32,6 +53,6 @@ class SessionsController < ApplicationController
   private
 
   def skip_auth?
-    ['new', 'create', 'callback'].include? action_name
+    !['destroy'].include? action_name
   end
 end

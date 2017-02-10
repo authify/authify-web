@@ -2,6 +2,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   before_action :require_authentication
+  before_action :setup_munson
 
   def authenticate_by_password(user, pass)
     # TODO handle auth errors
@@ -56,6 +57,8 @@ class ApplicationController < ActionController::Base
     skip_auth? || (current_user && authenticated?)
   end
 
+  private
+
   def require_authentication
     unless logged_in?
       flash.now[:danger] = 'You must login to continue!'
@@ -81,12 +84,9 @@ class ApplicationController < ActionController::Base
     session[:user] = payload['user']
   end
 
-  def api_auth_headers
-    base = {
-      x_authify_access: AUTHIFY_ACCESS_KEY,
-      x_authify_secret: AUTHIFY_SECRET_KEY
-    }
-    base[:x_authify_on_behalf_of] = current_user['username'] if current_user
-    base
+  def setup_munson
+    Munson.configure(url: AUTHIFY_API_URL.to_s, response_key_format: :dasherize) do |c|
+      c.use Middleware::AuthifyTrustedDelegate, email: current_user['username']
+    end
   end
 end

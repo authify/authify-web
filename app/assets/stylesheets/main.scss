@@ -1,13 +1,34 @@
-body {
-  min-height: 2000px;
-  padding-top: 70px;
+body, html {
+  height:100%;
 }
-section {
-  padding: 20px 0px;
+
+/* workaround modal-open padding issue */
+body.modal-open {
+    padding-right:0 !important;
 }
-.modal form {
-  margin-bottom: 0px;
+
+#sidebar {
+   padding-left:0;
 }
+
 footer {
   padding-bottom: 20px;
+}
+
+.bg-orange {
+  background-color: #e16e2f;
+  color: #fff;
+}
+
+.bg-purple {
+  background-color: #3f1989;
+  color: #fff;
+}
+
+a, #sidebar .nav-link {
+  color: #9c8cc2;
+}
+
+a:hover, #sidebar .nav-link:hover {
+  color: #5c4c82;
 }

@@ -5,22 +5,22 @@
       <div class="form-header">
         <%= image_tag "logo.png" %>
       </div>
-      <%= form_for(:session, url: login_path, html: { class: 'form-signin' }) do |f| %>
-        <h2 class="form-signin-heading">Authify Service</h2>
+      <%= form_for(:registration, url: register_path, html: { class: 'form-signin' }) do |f| %>
+        <h2 class="form-signin-heading">Authify Service Signup</h2>
         <%= f.label :email, class: 'sr-only' %>
         <%= f.email_field :email, class: 'form-control', required: true, autofocus: true, placeholder: 'email' %>
+        <%= f.label :name, class: 'sr-only' %>
+        <%= f.text_field :name, class: 'form-control', required: true, placeholder: 'name' %>
         <%= f.label :password, class: 'sr-only' %>
         <%= f.password_field :password, class: 'form-control', required: true, placeholder: 'password' %>
 
         <%= f.hidden_field :callback, value: @callback_url %>
-        <%= f.submit "Log in", class: "btn btn-lg btn-signin btn-block" %>
+        <%= f.submit 'Sign up!', class: "btn btn-lg btn-success btn-block" %>
       <% end %>
     </row>
     <row>
-      No account yet? No problem!<br>
-      Sign Up <%= link_to 'directly', signup_path(callback: params[:callback]) %> or via <%= link_to '/auth/github' do %>
-        <%= icon('github-alt') %> GitHub
-      <% end %>
+      Already have an account?<br>
+      <%= link_to 'Login', login_path(callback: params[:callback]) %>
     </row>
   </div>
   <div class="col-1"></div>

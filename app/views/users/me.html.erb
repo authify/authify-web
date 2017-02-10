@@ -1,4 +1,41 @@
-<p>
-  Full Name: <%= @user.full_name %><br/>
-  Email: <%= @user.email %>
-</p>
+<% content_for :subject do %>
+  Your Info
+<% end %>
+<hr>
+<div class="row placeholders mb-3">
+  <div class="col-lg-3 col-sm-12 placeholder text-center">
+    <%= gravatar_tag @user.email, size: 120, html: { class: "center-block img-fluid rounded-circle" } %>
+    <h4><%= @user.full_name %></h4>
+    <small class="text-muted"><%= @user.email %></small>
+  </div>
+</div>
+<div class="row mb-3">
+  <div class="col-lg-6 col-xsm-12">
+    <div class="card">
+      <div class="card-header">
+        Related Identities
+      </div>
+      <div class="card-block">
+        <div class="list-group">
+          <% @user.identities.each do |ident| %>
+            <span class="list-group-item"><%= ident.provider %>:<%= ident.uid %></span>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-6 col-xsm-12">
+    <div class="card">
+      <div class="card-header">
+        API Keys
+      </div>
+      <div class="card-block">
+        <div class="list-group">
+          <% @user.api_keys.each do |key| %>
+            <span class="list-group-item"><%= key.access_key %></span>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

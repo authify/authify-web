@@ -1,5 +1,27 @@
-<ul>
-<% @users.each do |user| %>
-<li><%= user.email %></li>
+<% content_for :subject do %>
+  All Users
 <% end %>
-</ul>
+<div class="row mb-3">
+  <div class="col-12">
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead class="thead-inverse">
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody>
+          <% @users.each do |user| %>
+            <tr>
+                <td><%= user.id %></td>
+                <td><%= user.full_name %></td>
+                <td><%= user.email %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

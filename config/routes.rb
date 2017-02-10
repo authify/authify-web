@@ -4,6 +4,8 @@ Rails.application.routes.draw do
   post   'login', to: 'sessions#create'
   delete 'logout', to: 'sessions#destroy'
   get    'callback', to:'sessions#callback', as: :callback
+  get    'signup', to: 'sessions#signup', as: :signup
+  post   'register', to: 'sessions#register', as: :register
 
   get 'users/me', to: 'users#me', as: :me
   resources :users, only: [:show, :index]

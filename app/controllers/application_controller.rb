@@ -15,7 +15,7 @@ class ApplicationController < ActionController::Base
   end
 
   def callback_url(encoded_url)
-    encoded_url ? URI(Base64.decode64(encoded_url)) : root_path
+    encoded_url ? URI(Base64.decode64(encoded_url)) : callback_path
   end
 
   def authenticated?

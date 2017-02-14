@@ -4,12 +4,20 @@ Rails.application.routes.draw do
   get    'login', to: 'sessions#new'
   post   'login', to: 'sessions#create'
   delete 'logout', to: 'sessions#destroy'
+
+  # Callback route for using JWT with this app
   get    'callback', to:'sessions#callback', as: :callback
+
+  # Logging in or signing up
   get    'signup', to: 'sessions#signup', as: :signup
   post   'register', to: 'sessions#register', as: :register
+
+  # omniauth routes
   get    'auth/:provider/callback' => 'sessions#omniauth_callback'
+  get    '/auth/failure' => 'sessions#failure'
 
   get 'users/me', to: 'users#me', as: :me
+  post 'users/add_api_key', to: 'users#add_api_key', as: :add_api_key
   resources :users, only: [:show, :index]
 
   get    'test', to: 'tests#index'

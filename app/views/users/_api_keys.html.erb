@@ -1,3 +1,10 @@
           <% @apikeys.each do |key| %>
-            <span class="list-group-item"><%= key.attributes[:access_key] %></span>
+          <tr>
+            <td><%= key.attributes[:access_key] %></td>
+            <td>
+              <%= link_to '#' do %>
+                <%= icon('trash') %>
+              <% end %>
+            </td>
+          </tr>
           <% end %>

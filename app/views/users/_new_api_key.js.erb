@@ -1,0 +1,31 @@
+<div class="modal-dialog modal-lg">
+  <div class="modal-content">
+    <div class="modal-body">
+      <div class="card">
+        <div class="card-header">
+          New API Key
+        </div>
+        <div class="card-block">
+          <ul class="errors"></ul>
+          
+          <p class="card-text">
+          <strong class="text-uppercase">Warning!</strong> this is the only time you will see this secret key in plaintext. Be sure to copy it to a safe place.
+          </p>
+        </div>
+        <div class="card-block">
+          <div class="card-text">
+            <span class="text-primary">Access Key:</span>
+            <pre class="text-muted"><%= @api_key.document.attributes[:access_key] %></pre>
+          </div>
+          <div class="card-text">
+            <span class="text-primary">Secret Key:</span>
+            <pre class="text-muted"><%= @api_key.document.attributes[:secret_key] %></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <%= link_to "Close", '#', class: "btn" %>
+    </div>
+  </div>
+</div>

@@ -17,8 +17,8 @@
       </div>
       <div class="card-block">
         <div class="list-group">
-          <% @user.identities.each do |ident| %>
-            <span class="list-group-item"><%= ident.provider %>:<%= ident.uid %></span>
+          <% @identities.each do |ident| %>
+            <span class="list-group-item"><%= ident.attributes[:provider] %>:<%= ident.attributes[:uid] %></span>
           <% end %>
         </div>
       </div>
@@ -31,11 +31,16 @@
       </div>
       <div class="card-block">
         <div class="list-group">
-          <% @user.api_keys.each do |key| %>
-            <span class="list-group-item"><%= key.access_key %></span>
-          <% end %>
+          <%= render 'api_keys' %>
         </div>
+        <br>
+        <p class="card-text">
+          <%= link_to add_api_key_path, remote: true, method: :post, class: 'btn bg-orange' do %>
+            <%= icon('plus') %> Add
+          <% end %>
+        </p>
       </div>
     </div>
   </div>
 </div>
+<div id="apikey-modal" class="modal fade"></div>

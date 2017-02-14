@@ -1,7 +1,8 @@
 class APIKey < Munson::Resource
-  self.type = :api_keys
+  self.type = :apikeys
   has_one :user
 
   key_type :integer
   attribute :access_key, :string
+  attribute :secret_key, :string
 end

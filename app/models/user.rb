@@ -4,7 +4,7 @@ class User < Munson::Resource
   has_many :groups
   has_many :organizations
   has_many :identities
-  has_many :api_keys
+  has_many :apikeys
 
   key_type :integer
   attribute :full_name, :string

@@ -46,7 +46,7 @@ To integrate with Authify::Web, an application needs:
 
 Let's review these in greater detail:
 
-### A Quick Integration Example
+### A Simple Integration Example
 
 Somewhere in an Authify-integrated application (i.e., _your_ application), there should be logic similar to the following for protected areas of the site:
 
@@ -99,11 +99,22 @@ def callback
 end
 ```
 
-Again, this is just example code. Implement it in any language or style suites the needs of the application. The `verify_token` method is by far the most important part of this code. It **must** properly verify the JWT signature, the time at which the token was issued (`iat`), the issuer of the JWT (`iss`), the expiration time of the JWT (`exp`), and must be capable of extracting `scopes` and `user` from the token's payload. Ideally, this method would also verify that the `scopes` list includes `user_access` (meaning, in the context of Authify, that the token is valid for use by users).
+Again, this is just example code. Implement it in any language or style suites the needs of the application.
+
+
+### Verifying the JWT
+
+The `verify_token` method is by far the most important part of this code. It **must** properly verify the JWT signature, the time at which the token was issued (`iat`), the issuer of the JWT (`iss`), the expiration time of the JWT (`exp`), and must be capable of extracting `scopes` and `user` from the token's payload. Ideally, this method would also verify that the `scopes` list includes `user_access` (meaning, in the context of Authify, that the token is valid for use by users).
 
 To properly verify the JWT, the application needs to have the public key of the JWT issuer (in this case, the Authify::API). This can be downloaded programmatically as a PEM-encoded certificate via a call to the Authify::API on `/jwt/key` and parsing the JSON response, taking the data from the `data` key. It can also be retrieved directly by downloading the content from Authify::Web on `/about/jwt/download_key`, which just provides the raw PEM file content.
 
-At this point, the user is logged in and the integrated application knows some value things about them. The `user` structure from the token's payload includes something similar to this:
+### The JWT Payload
+
+At this point, the user is logged in and the integrated application knows some value things about them because of the JWT.
+
+The JWT includes two components that may be useful to an application integrated with Authify: `user` and `scopes`.
+
+The `user` structure from the token's payload includes something similar to this:
 
 ```javascript
 {
@@ -132,6 +143,28 @@ At this point, the user is logged in and the integrated application knows some v
 ```
 
 From this information, the integrated applications knows the user's email (`token['user']['username']`), the unique ID of the user in Authify (`token['user']['uid']`), and to which Authify organizations the user belongs. The "organizations" piece may not be of use to your applications, but it can be useful for determining group memberships and the user's role across tenancies.
+
+The `scopes` structure is simply a list of scopes (or perhaps purposes) for which the JWT is valid. Currently, this will _always_ include `user_access`, but if the user is a global administrator for Authify, it will also include `admin_access`.
+
+### Horrible Diagram
+
+```plaintext
+Authify                                   User                                         App
+|                                          |                                             |
+|                                          | ============== app/some/path ============>> |
+|                                          |                                             |
+|                                          | <<==== redirect authify/login?callback ==== |
+|                                          |                                             |
+| <<====== authify/login?callback ======== |                                             |
+|                                          |                                             |
+| ====== redirect app/callback?jwt =====>> |                                             |
+|                                          |                                             |
+|                                          | ============= app/callback?jwt ==========>> |
+|                                          |                                             |
+|                                          | <<======= redirect app/some/path ========== |
+|                                          |                                             |
+|                                          | ============== app/some/path ============>> |
+```
 
 ## Contributing
 

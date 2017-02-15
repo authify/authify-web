@@ -42,7 +42,7 @@ class SessionsController < ApplicationController
     verify_token params[:jwt]
     next_path = session[:before_login]
     session.delete(:before_login)
-    redirect_to next_path
+    redirect_to next_path ? next_path : root_path
   end
 
   def omniauth_callback

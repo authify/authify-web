@@ -34,6 +34,26 @@ TODO
 
 ## Usage and Authentication Workflow
 
+### Horrible Diagram
+
+```plaintext
+Authify                                   User                                         App
+|                                          |                                             |
+|                                          | ============== app/some/path ============>> |
+|                                          |                                             |
+|                                          | <<==== redirect authify/login?callback ==== |
+|                                          |                                             |
+| <<====== authify/login?callback ======== |                                             |
+|                                          |                                             |
+| ====== redirect app/callback?jwt =====>> |                                             |
+|                                          |                                             |
+|                                          | ============= app/callback?jwt ==========>> |
+|                                          |                                             |
+|                                          | <<======= redirect app/some/path ========== |
+|                                          |                                             |
+|                                          | ============== app/some/path ============>> |
+```
+
 ### Integration Basics
 
 To integrate with Authify::Web, an application needs:
@@ -145,26 +165,6 @@ The `user` structure from the token's payload includes something similar to this
 From this information, the integrated applications knows the user's email (`token['user']['username']`), the unique ID of the user in Authify (`token['user']['uid']`), and to which Authify organizations the user belongs. The "organizations" piece may not be of use to your applications, but it can be useful for determining group memberships and the user's role across tenancies.
 
 The `scopes` structure is simply a list of scopes (or perhaps purposes) for which the JWT is valid. Currently, this will _always_ include `user_access`, but if the user is a global administrator for Authify, it will also include `admin_access`.
-
-### Horrible Diagram
-
-```plaintext
-Authify                                   User                                         App
-|                                          |                                             |
-|                                          | ============== app/some/path ============>> |
-|                                          |                                             |
-|                                          | <<==== redirect authify/login?callback ==== |
-|                                          |                                             |
-| <<====== authify/login?callback ======== |                                             |
-|                                          |                                             |
-| ====== redirect app/callback?jwt =====>> |                                             |
-|                                          |                                             |
-|                                          | ============= app/callback?jwt ==========>> |
-|                                          |                                             |
-|                                          | <<======= redirect app/some/path ========== |
-|                                          |                                             |
-|                                          | ============== app/some/path ============>> |
-```
 
 ## Contributing
 

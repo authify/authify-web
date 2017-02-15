@@ -18,7 +18,7 @@
       <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#collapsing-navbar">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <a class="navbar-brand pb-2" href="#">Authify</a>
+      <%= link_to 'Authify', root_path, class: 'navbar-brand pb-2' %>
       <div class="navbar-collapse collapse" id="collapsing-navbar">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
@@ -41,7 +41,7 @@
             <li class="nav-item"><a class="nav-link" href="#"><%= icon 'tachometer' %> Overview</a></li>
             <li class="nav-item"><a class="nav-link" href="#"><%= icon 'line-chart' %> Reports</a></li>
             <li class="nav-item"><%= link_to users_path, class: 'nav-link' do %><%= icon :users %> Users<% end %></li>
-            <li class="nav-item"><a class="nav-link" href=""><%= icon 'sitemap' %> Organizations</a></li>
+            <li class="nav-item"><%= link_to organizations_path, class: 'nav-link' do %><%= icon 'sitemap' %> Organizations<% end %></li>
             <li class="nav-item"><a class="nav-link" href=""><%= icon 'plug' %> Integrations</a></li>
             <li class="nav-item"><a class="nav-link" href="" data-target="#about" data-toggle="modal"><%= icon 'question-circle' %> About</a></li>
           </ul>
@@ -53,6 +53,7 @@
               <button type="button" class="btn btn-primary-outline btn-sm" data-toggle="offcanvas"><i class="fa fa-chevron-left"></i> Menu</button>
           </p>
           <h1 class="display-1 hidden-xs-down"><%= content_for :subject %></h1>
+          <hr>
           <%= yield %>
         </div>
       </div>

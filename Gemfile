@@ -58,7 +58,7 @@ gem 'redis-rails', '~> 5'
 gem 'json_api_client', '~> 1.4'
 #gem 'munson'
 gem 'munson',
-  git: 'https://github.com/coryodaniel/munson.git', branch: 'develop'
+  git: 'https://github.com/jgnagy/munson.git', branch: 'feature/custom-query-endpoints'
 gem 'rest-client', '~> 1.8'
 gem 'addressable', '~> 2.4'
 gem 'will_paginate', '~> 3.1'

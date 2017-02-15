@@ -1,7 +1,7 @@
 GIT
-  remote: https://github.com/coryodaniel/munson.git
-  revision: a8e259781b9fe23eba3bcbb37ff8de2411be3559
-  branch: develop
+  remote: https://github.com/jgnagy/munson.git
+  revision: dfe62f31f74e196f090ed8a1aee54b84671a9fab
+  branch: feature/custom-query-endpoints
   specs:
     munson (0.3.1)
       faraday
@@ -53,7 +53,7 @@ GEM
     arel (7.1.4)
     authify-core (0.0.7)
       jwt (~> 1.5)
-    autoprefixer-rails (6.7.2)
+    autoprefixer-rails (6.7.3)
       execjs
     bootstrap (4.0.0.alpha6)
       autoprefixer-rails (>= 6.0.3)

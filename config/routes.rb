@@ -16,9 +16,12 @@ Rails.application.routes.draw do
   get    'auth/:provider/callback' => 'sessions#omniauth_callback'
   get    '/auth/failure' => 'sessions#failure'
 
+  # User-related routes
   get 'users/me', to: 'users#me', as: :me
   post 'users/add_api_key', to: 'users#add_api_key', as: :add_api_key
   resources :users, only: [:show, :index]
 
-  get    'test', to: 'tests#index'
+  # Organization-related routes
+  get 'organizations/mine', to: 'organizations#mine', as: :my_organizations
+  resources :organizations, constraints: { id: /[a-z0-9_]+/ }
 end

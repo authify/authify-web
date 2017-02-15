@@ -1,0 +1,24 @@
+<% content_for :subject do %>
+  Your Organizations
+<% end %>
+<div class="row mb-3">
+  <div class="col-12">
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead class="thead-inverse">
+            <tr>
+                <th>Name</th>
+                <th>&nbsp;</th>
+            </tr>
+        </thead>
+        <tbody>
+          <% @organizations.each do |org| %>
+            <tr>
+                <td><%= org.name %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

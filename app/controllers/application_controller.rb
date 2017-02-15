@@ -54,10 +54,18 @@ class ApplicationController < ActionController::Base
   end
 
   def logged_in?
-    skip_auth? || (current_user && authenticated?)
+    skip_auth? || (current_user && authenticated? && user?)
   end
 
   private
+
+  def user?
+    session[:scopes] && session[:scopes].include?('user_access')
+  end
+
+  def admin?
+    session[:scopes] && session[:scopes].include?('admin_access')
+  end
 
   def require_authentication
     unless logged_in?

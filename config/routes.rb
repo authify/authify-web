@@ -8,6 +8,11 @@ Rails.application.routes.draw do
   # Callback route for using JWT with this app
   get    'callback', to:'sessions#callback', as: :callback
 
+  # about-related routes
+  scope '/about' do
+    get    '/jwt/download_key', to: 'about#download_jwt_key', as: :download_jwt_key
+  end
+
   # Logging in or signing up
   get    'signup', to: 'sessions#signup', as: :signup
   post   'register', to: 'sessions#register', as: :register

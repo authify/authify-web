@@ -101,6 +101,8 @@ end
 
 Again, this is just example code. Implement it in any language or style suites the needs of the application. The `verify_token` method is by far the most important part of this code. It **must** properly verify the JWT signature, the time at which the token was issued (`iat`), the issuer of the JWT (`iss`), the expiration time of the JWT (`exp`), and must be capable of extracting `scopes` and `user` from the token's payload. Ideally, this method would also verify that the `scopes` list includes `user_access` (meaning, in the context of Authify, that the token is valid for use by users).
 
+To properly verify the JWT, the application needs to have the public key of the JWT issuer (in this case, the Authify::API). This can be downloaded programmatically as a PEM-encoded certificate via a call to the Authify::API on `/jwt/key` and parsing the JSON response, taking the data from the `data` key. It can also be retrieved directly by downloading the content from Authify::Web on `/about/jwt/download_key`, which just provides the raw PEM file content.
+
 At this point, the user is logged in and the integrated application knows some value things about them. The `user` structure from the token's payload includes something similar to this:
 
 ```javascript

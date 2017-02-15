@@ -61,7 +61,7 @@ To integrate with Authify::Web, an application needs:
 * The `AUTHIFY_PUBLIC_URL` + `/login` to redirect users to for the login process to begin
 * A callback URL capable of receiving and parsing a [JWT](https://en.wikipedia.org/wiki/JSON_Web_Token) via a `jwt` GET parameter, and the ability to Base64 encode this callback URL
 * Either a means to dynamically retrieve the public key for Authify::API or access to a stored copy to verify a JWT signature
-* A means to verify the issuer attribute of a JWT signature
+* A means to verify the issuer attribute of a JWT signature. This should be as simple as a String comparison. This can be retrieved from the Authify::API at `/jwt/meta`, which returns JSON with the relevant keys `algorithm` and `issuer`.
 * Optionally, a means of specifying the original URL a user requested (so users are seemlessly sent to their original destination after the login process is complete)
 
 Let's review these in greater detail:
@@ -130,7 +130,7 @@ To properly verify the JWT, the application needs to have the public key of the 
 
 ### The JWT Payload
 
-At this point, the user is logged in and the integrated application knows some value things about them because of the JWT.
+At this point, the user is logged in and the integrated application knows some valuable things about them because of the JWT.
 
 The JWT includes two components that may be useful to an application integrated with Authify: `user` and `scopes`.
 

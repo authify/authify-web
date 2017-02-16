@@ -16,26 +16,38 @@
   <body>
     <div class="container">
     <% if flash[:success] %>
-      <div class="alert alert-success fade in">
-        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+      <div class="alert alert-success fade collapse show">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">×</span>
+            <span class="sr-only">Close</span>
+        </button>
         <%= flash[:success] %>
       </div>
     <% end %>
     <% if flash[:notice] %>
-      <div class="alert alert-info fade in">
-        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+      <div class="alert alert-info fade collapse show">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">×</span>
+            <span class="sr-only">Close</span>
+        </button>
         <%= flash[:notice] %>
       </div>
     <% end %>
     <% if flash[:alert] %>
-      <div class="alert alert-warning fade in">
-        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+      <div class="alert alert-warning fade collapse show">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">×</span>
+            <span class="sr-only">Close</span>
+        </button>
         <%= flash[:alert] %>
       </div>
     <% end %>
     <% if flash[:danger] %>
-      <div class="alert alert-danger fade in">
-        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+      <div class="alert alert-danger fade collapse show">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">×</span>
+            <span class="sr-only">Close</span>
+        </button>
         <%= flash[:danger] %>
       </div>
     <% end %>

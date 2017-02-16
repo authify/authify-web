@@ -40,7 +40,8 @@
           <ul class="nav flex-column">
             <li class="nav-item"><a class="nav-link" href="#"><%= icon 'tachometer' %> Overview</a></li>
             <li class="nav-item"><a class="nav-link" href="#"><%= icon 'line-chart' %> Reports</a></li>
-            <li class="nav-item"><%= link_to my_organizations_path, class: 'nav-link' do %><%= icon 'sitemap' %> Organizations<% end %></li>
+            <li class="nav-item"><%= link_to users_path, class: 'nav-link' do %><%= icon :users %> Users<% end %></li>
+            <li class="nav-item"><%= link_to organizations_path, class: 'nav-link' do %><%= icon 'sitemap' %> Organizations<% end %></li>
             <li class="nav-item"><a class="nav-link" href=""><%= icon 'plug' %> Integrations</a></li>
             <li class="nav-item"><a class="nav-link" href="" data-target="#about" data-toggle="modal"><%= icon 'question-circle' %> About</a></li>
           </ul>

@@ -4,6 +4,8 @@ class ApplicationController < ActionController::Base
   before_action :require_authentication
   before_action :setup_munson
 
+  layout :user_layout
+
   def authenticate_by_password(user, pass)
     # TODO handle auth errors
     response = RestClient.post "#{AUTHIFY_API_URL}/jwt/token",
@@ -79,6 +81,10 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def user_layout
+    admin? ? 'admin' : 'application'
+  end     
+
   def verify_token(token)
     options = {
       algorithm: Authify::Core::CONFIG[:jwt][:algorithm],
@@ -94,7 +100,7 @@ class ApplicationController < ActionController::Base
 
   def setup_munson
     Munson.configure(url: AUTHIFY_API_URL.to_s, response_key_format: :dasherize) do |c|
-      c.use Middleware::AuthifyTrustedDelegate, email: current_user ? current_user['username'] : nil
+      c.use Middleware::AuthifyTrustedDelegate, email: (current_user ? current_user['username'] : nil)
     end
   end
 end

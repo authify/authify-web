@@ -8,13 +8,20 @@ class SessionsController < ApplicationController
   end
 
   def create
-    token = authenticate_by_password(params[:session][:email], params[:session][:password])
+    token = begin
+      authenticate_by_password(params[:session][:email], params[:session][:password])
+    rescue RestClient::Unauthorized => e
+      nil
+    end
+    
     if token
       rurl = URI(params[:session][:callback])
       rurl.query = rurl.query ? rurl.query + "jwt=#{token}" : "jwt=#{token}"
       redirect_to rurl.to_s
     else
-      flash.now[:danger] = 'Invalid login/password combination'
+      # TODO track failed logins in session or on server...
+      @callback_url = params[:session][:callback]
+      flash.now[:danger] = 'Invalid credentials'
       render 'new'
     end
   end
@@ -40,6 +47,7 @@ class SessionsController < ApplicationController
 
   def callback
     verify_token params[:jwt]
+    setup_munson
     next_path = session[:before_login]
     session.delete(:before_login)
     redirect_to next_path ? next_path : root_path
@@ -48,24 +56,39 @@ class SessionsController < ApplicationController
   def omniauth_callback
     auth = request.env["omniauth.auth"]
 
-    identities = Identity.include(:user).fetch
-    user_ident = identities.select {|ident| ident.provider == auth[:provider] && ident.uid == auth[:uid]}.first
-
-    token = if user_ident
-      User.token_from_identity(auth[:provider], auth[:uid])
+    if current_user
+      # Adding a new identity to an existing user
+      if current_user['username'].downcase != auth['info']['email'].downcase
+        redirect_to me_path, alert: "Identity Primary Email does not match #{current_user['username'].downcase}!"
+      else      
+        ident = Identity.new(provider: auth[:provider], uid: auth[:uid])
+        ident.save
+        flash[:notice] = "Now Associated with #{auth[:provider]}:#{auth[:uid]}!"
+        redirect_to me_path
+      end
     else
-      User.register(auth['info']['email'], auth['info']['name'], nil, auth)
-    end
+      # Logging in / registering via an identity
 
-    if token
-      rurl = URI(session[:before_register])
-      session.delete(:before_register)
-      session[:authenticated] = Time.now
+      identities = Identity.include(:user).fetch
+      # TODO Should be moved to an API-side filter
+      user_ident = identities.select {|ident| ident.provider == auth[:provider] && ident.uid == auth[:uid]}.first
 
-      rurl.query = rurl.query ? rurl.query + "jwt=#{token}" : "jwt=#{token}"
-      redirect_to rurl.to_s
-    else
-      raise 'Registration Failed'
+      token = if user_ident
+        User.token_from_identity(auth[:provider], auth[:uid])
+      else
+        User.register(auth['info']['email'], auth['info']['name'], nil, auth)
+      end
+
+      if token
+        rurl = URI(session[:before_register])
+        session.delete(:before_register)
+        verify_token(token)
+        setup_munson
+        rurl.query = rurl.query ? rurl.query + "jwt=#{token}" : "jwt=#{token}"
+        redirect_to rurl.to_s
+      else
+        raise 'Registration Failed'
+      end
     end
   end
 

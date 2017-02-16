@@ -51,6 +51,7 @@ source 'https://rails-assets.org' do
 end
 
 gem 'authify-core'
+gem 'linguistics', '~> 2.1'
 gem 'gravatarify', '~> 3.1'
 gem 'font-awesome-sass', '~> 4.7.0'
 gem 'bootstrap', '~> 4.0.0.alpha6'

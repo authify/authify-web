@@ -12,13 +12,13 @@
             </tr>
         </thead>
         <tbody>
-          <% @organizations.each do |org| %>
-            <tr>
-                <td><%= org.name %></td>
-            </tr>
-          <% end %>
+          <%= render 'list' %>
         </tbody>
       </table>
     </div>
+    <br>
+    <%= link_to new_organization_path, class: 'btn bg-orange' do %>
+      <%= icon('plus') %> Add
+    <% end %>
   </div>
 </div>

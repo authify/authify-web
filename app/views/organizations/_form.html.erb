@@ -1,2 +1,45 @@
-<%= form_for @organization do %>
+<%= form_for @organization do |f| %>
+  <div class="form-group row">
+    <%= f.label 'name', 'Name', class: 'col-2 col-form-label' %>
+    <div class="col-4">
+      <%= f.text_field :name, class: 'form-control' %>
+    </div>
+  </div>
+  <div class="form-group row">
+    <%= f.label 'public_email', 'Public Email Address', class: 'col-2 col-form-label' %>
+    <div class="col-4">
+      <%= f.email_field :public_email, class: 'form-control' %>
+    </div>
+  </div>
+  <div class="form-group row">
+    <%= f.label 'gravatar_email', 'Gravatar Email Address', class: 'col-2 col-form-label' %>
+    <div class="col-4">
+      <%= f.email_field :gravatar_email, class: 'form-control' %>
+    </div>
+  </div>
+  <div class="form-group row">
+    <%= f.label 'billing_email', 'Billing Email Address', class: 'col-2 col-form-label' %>
+    <div class="col-4">
+      <%= f.email_field :billing_email, class: 'form-control' %>
+    </div>
+  </div>
+  <div class="form-group row">
+    <%= f.label 'description', 'Description', class: 'col-2 col-form-label' %>
+    <div class="col-4">
+      <%= f.text_area :description, class: 'form-control' %>
+    </div>
+  </div>
+  <div class="form-group row">
+    <%= f.label 'url', 'URL', class: 'col-2 col-form-label' %>
+    <div class="col-4">
+      <%= f.url_field :url, class: 'form-control' %>
+    </div>
+  </div>
+  <div class="form-group row">
+    <%= f.label 'location', 'Location', class: 'col-2 col-form-label' %>
+    <div class="col-4">
+      <%= f.text_field :location, class: 'form-control' %>
+    </div>
+  </div>
+  <%= f.submit 'Submit', class: "btn bg-orange" %>
 <% end %>

@@ -15,10 +15,24 @@ class OrganizationsController < ApplicationController
 
   def new
     @organization = Organization.new
+    @organization.document.data[:errors] = {}
   end
 
   def create
-    @organization = Organization.new(params)
+    @organization = Organization.new
+    modifiable_attributes = [
+      :name,
+      :public_email,
+      :gravatar_email,
+      :billing_email,
+      :description,
+      :url,
+      :location
+    ]
+    modifiable_attributes.each do |attrib|
+      @organization.send("#{attrib}=", params[:organization][attrib]) if params[:organization][attrib]
+    end
+    @organization.name = @organization.name.to_s.downcase
     if @organization.save
       redirect_to organization_path(@organization.name)
     else
@@ -54,7 +68,7 @@ class OrganizationsController < ApplicationController
   private
 
   def set_organization
-    organization = Organization.filter(name: params[:id])
+    organization = Organization.filter(name: params[:id]).include(:users, :groups, :admins).fetch
     raise "Ambiguous Organization Name #{params[:id]}" unless organization.size == 1
     @organization = organization.first
   end

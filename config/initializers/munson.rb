@@ -44,3 +44,9 @@ class Munson::Resource
     new? ? nil : id.to_s
   end
 end
+
+class Munson::Collection
+  def size
+    @collection.size
+  end
+end

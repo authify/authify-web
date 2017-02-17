@@ -1,0 +1,76 @@
+<% content_for :subject do %>
+  Organization Details
+<% end %>
+<div class="row mb-3">
+  <div class="col-lg-4 col-md-4">
+    <div class="card card-inverse card-success">
+      <div class="card-block bg-success">
+        <div class="rotate">
+          <%= icon('user', class: 'fa-5x') %>
+        </div>
+        <h6 class="text-uppercase">Users</h6>
+        <h1 class="display-1"><%= @organization.users.size %></h1>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-4 col-md-4">
+    <div class="card card-inverse card-warning">
+      <div class="card-block bg-warning">
+        <div class="rotate">
+          <%= icon('users', class: 'fa-5x') %>
+        </div>
+        <h6 class="text-uppercase">Groups</h6>
+        <h1 class="display-1"><%= @organization.groups.size %></h1>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-4 col-md-4">
+    <div class="card card-inverse card-danger">
+      <div class="card-block bg-danger">
+        <div class="rotate">
+          <%= icon('user-secret', class: 'fa-5x') %>
+        </div>
+        <h6 class="text-uppercase">Admins</h6>
+        <h1 class="display-1"><%= @organization.admins.size %></h1>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row mb-3">
+  <div class="col-12">
+    <div class="card">
+      <h4 class="card-header"><%= @organization.name %></h4>
+      <div class="card-block">
+        <table class="table table-bordered">
+          <tbody>
+            <tr>
+              <th scope="row">Public Email</th>
+              <td><%= @organization.public_email %></td>
+            </tr>
+            <tr>
+              <th scope="row">Gravatar Email</th>
+              <td><%= @organization.gravatar_email %></td>
+            </tr>
+            <tr>
+              <th scope="row">Billing Email</th>
+              <td><%= @organization.billing_email %></td>
+            </tr>
+            <tr>
+              <th scope="row">Description</th>
+              <td><%= @organization.description %></td>
+            </tr>
+            <tr>
+              <th scope="row">Website URL</th>
+              <td><%= link_to @organization.url, @organization.url, target: '_blank' %></td>
+            </tr>
+            <tr>
+              <th scope="row">Location</th>
+              <% loc = URI('http://maps.google.com') ; loc.query = "q=#{@organization.location}" %>
+              <td><%= link_to @organization.location, loc.to_s, target: '_blank' %></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

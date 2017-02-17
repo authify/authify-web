@@ -4,6 +4,7 @@ class SessionsController < ApplicationController
 
   def new
     @callback_url = callback_url(params[:callback])
+    reset_session
     session[:before_register] = @callback_url.to_s
   end
 

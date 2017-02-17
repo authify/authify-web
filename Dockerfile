@@ -21,7 +21,8 @@ RUN cd /app \
     && bundle install --jobs=4 \
     && apk del build-dependencies
 
-RUN chown -R nobody:nogroup /app
+RUN chown -R root:root /app \
+    && chown -R nobody:nogroup /app/tmp
 
 USER nobody
 WORKDIR /app

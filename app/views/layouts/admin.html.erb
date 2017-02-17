@@ -18,11 +18,11 @@
       <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#collapsing-navbar">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <%= link_to 'Authify', root_path, class: 'navbar-brand pb-2' %>
+      <%= link_to 'Authify', root_path, class: 'navbar-brand pb-2', data: { no_turbolink: true, turbolinks: false } %>
       <div class="navbar-collapse collapse" id="collapsing-navbar">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
-            <%= link_to me_path, class: 'nav-link' do %>
+            <%= link_to me_path, class: 'nav-link', data: { no_turbolink: true, turbolinks: false } do %>
               <%= icon 'user' %> Profile
             <% end %>
           </li>

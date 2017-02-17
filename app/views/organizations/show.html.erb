@@ -9,7 +9,7 @@
           <%= icon('user', class: 'fa-5x') %>
         </div>
         <h6 class="text-uppercase">Users</h6>
-        <h1 class="display-1"><%= @organization.users.size %></h1>
+        <h1 class="display-1"><%= @users.size %></h1>
       </div>
     </div>
   </div>
@@ -20,7 +20,7 @@
           <%= icon('users', class: 'fa-5x') %>
         </div>
         <h6 class="text-uppercase">Groups</h6>
-        <h1 class="display-1"><%= @organization.groups.size %></h1>
+        <h1 class="display-1"><%= @groups.size %></h1>
       </div>
     </div>
   </div>
@@ -31,7 +31,7 @@
           <%= icon('user-secret', class: 'fa-5x') %>
         </div>
         <h6 class="text-uppercase">Admins</h6>
-        <h1 class="display-1"><%= @organization.admins.size %></h1>
+        <h1 class="display-1"><%= @admins.size %></h1>
       </div>
     </div>
   </div>
@@ -61,12 +61,20 @@
             </tr>
             <tr>
               <th scope="row">Website URL</th>
+              <% if @organization.url %>
               <td><%= link_to @organization.url, @organization.url, target: '_blank' %></td>
+              <% else %>
+              <td></td>
+              <% end %>
             </tr>
             <tr>
               <th scope="row">Location</th>
+              <% if @organization.location %>
               <% loc = URI('http://maps.google.com') ; loc.query = "q=#{@organization.location}" %>
               <td><%= link_to @organization.location, loc.to_s, target: '_blank' %></td>
+              <% else %>
+              <td></td>
+              <% end %>
             </tr>
           </tbody>
         </table>

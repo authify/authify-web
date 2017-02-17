@@ -44,6 +44,9 @@ class OrganizationsController < ApplicationController
   end
 
   def show
+    @users  = safely_fetch(@organization, :users)
+    @groups = safely_fetch(@organization, :groups)
+    @admins = safely_fetch(@organization, :admins)
   end
 
   def update
@@ -67,9 +70,17 @@ class OrganizationsController < ApplicationController
 
   private
 
+  def safely_fetch(resource, relation)
+    begin
+      resource.send(relation.to_sym)
+    rescue Munson::RelationshipNotFound => e
+      relation.to_s.match(/s$/) ? [] : nil
+    end
+  end
+
   def set_organization
-    organization = Organization.filter(name: params[:id]).include(:users, :groups, :admins).fetch
+    organization = Organization.filter(name: params[:id]).fetch
     raise "Ambiguous Organization Name #{params[:id]}" unless organization.size == 1
-    @organization = organization.first
+    @organization = Organization.include(:users, :groups, :admins).find(organization.first.id)
   end
 end

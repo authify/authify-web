@@ -1,6 +1,10 @@
           <% @organizations.each do |org| %>
             <tr>
                 <td><%= org.name %></td>
-                <td>&nbsp;</td>
+                <td>
+                  <%= link_to organization_path(org.name), class: 'btn btn-sm btn-success' do %>
+                    <%= icon('info-circle') %> Show
+                  <% end %>
+                </td>
             </tr>
           <% end %>

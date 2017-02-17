@@ -1,6 +1,6 @@
           <% @identities.each do |ident| %>
           <tr>
-            <td><%= icon ident.attributes[:provider] %> <%= ident.provider %></td>
+            <td><%= icon ident.attributes[:provider] %> <%= ident.attributes[:provider] %></td>
             <td><%= ident.attributes[:uid] %></td>
             <td>
               <%= link_to '#' do %>

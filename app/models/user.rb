@@ -9,6 +9,7 @@ class User < Munson::Resource
   key_type :integer
   attribute :full_name, :string
   attribute :email, :string
+  attribute :password, :string
 
   def self.register(email, name, password, omniauth_stuff = nil)
     # TODO Make this handle errors

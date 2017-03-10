@@ -3,10 +3,29 @@
 <% end %>
 
 <div class="row placeholders mb-3">
-  <div class="col-lg-3 col-sm-12 placeholder text-center">
+  <div class="col-lg-6 col-sm-12 placeholder text-center">
     <%= gravatar_tag @user.email, size: 120, html: { class: "center-block img-fluid rounded-circle" } %>
     <h4><%= @user.full_name %></h4>
     <small class="text-muted"><%= @user.email %></small>
+  </div>
+  <div class="col-lg-6 col-sm-12">
+    <div class="card">
+      <div class="card-header">
+        Options
+      </div>
+      <div class="card-block">
+        <%= link_to '#', remote: true, method: :post, class: 'btn btn-block btn-lpurple', data: { no_turbolink: true, turbolinks: false } do %>
+          <%= icon('bug') %> Report a Problem
+        <% end %>
+        <%= link_to '#', class: 'btn btn-block bg-orange', data: { target: "#password-modal", toggle: "modal" } do %>
+          <%= icon('key') %> Reset Password
+        <% end %>
+        <br/>
+        <%= link_to '#', remote: true, method: :post, class: 'btn btn-block bg-danger', data: { no_turbolink: true, turbolinks: false } do %>
+          <%= icon('close') %> Delete Account
+        <% end %>
+      </div>
+    </div>
   </div>
 </div>
 <div class="row mb-3">
@@ -71,3 +90,6 @@
   </div>
 </div>
 <div id="apikey-modal" class="modal fade"></div>
+<div id="password-modal" class="modal fade">
+  <%= render 'password_reset_modal' %>
+</div>

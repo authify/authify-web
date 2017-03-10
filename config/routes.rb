@@ -24,6 +24,7 @@ Rails.application.routes.draw do
   # User-related routes
   get 'users/me', to: 'users#me', as: :me
   post 'users/add_api_key', to: 'users#add_api_key', as: :add_api_key
+  post 'users/reset_password', to: 'users#reset_password', as: :reset_password
   resources :users, only: [:show, :index]
 
   # Organization-related routes

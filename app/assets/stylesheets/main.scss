@@ -15,20 +15,50 @@ footer {
   padding-bottom: 20px;
 }
 
+a {
+  color: #9c8cc2;
+}
+
+a:hover {
+  color: #5c4c82;
+}
+
+a.btn {
+  color: #fff;
+}
+
+i.fa-trash {
+  color: #d9534f;
+}
+
 .bg-orange {
   background-color: #e16e2f;
-  color: #fff;
+}
+
+.bg-orange:hover {
+  background-color: #d15e1f;
+}
+
+a.btn-lpurple {
+  color: #9c8cc2;
+}
+
+.btn-lpurple {
+  background-color: #f7f7f9;
+}
+
+.btn-lpurple:hover {
+  background-color: #f0f0f0;
 }
 
 .bg-purple {
   background-color: #3f1989;
-  color: #fff;
 }
 
-a, #sidebar .nav-link {
+#sidebar .nav-link {
   color: #9c8cc2;
 }
 
-a:hover, #sidebar .nav-link:hover {
+#sidebar .nav-link:hover {
   color: #5c4c82;
 }

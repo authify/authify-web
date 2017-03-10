@@ -15,10 +15,15 @@ class UsersController < ApplicationController
     @api_key.save
   end
 
-  def signup
-    @user = User.new
-  end
-
-  def register
+  def reset_password
+    user = User.find(current_user['uid'])
+    if params[:reset][:password1] == params[:reset][:password2]
+      user.password = params[:reset][:password1]
+      user.save
+      flash[:success] = 'Password Reset'
+    else
+      flash[:alert] = 'Password Reset Failed! Passwords must match.'
+    end
+    redirect_to me_path
   end
 end

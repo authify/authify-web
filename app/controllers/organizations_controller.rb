@@ -3,14 +3,14 @@ class OrganizationsController < ApplicationController
 
   def index
     if admin?
-      @organizations = Organization.fetch
+      @organizations = Organization.via_munson(current_user) { |o| o.fetch }
     else
       redirect_to my_organizations_path
     end
   end
 
   def mine
-    @organizations = Organization.fetch_from('/mine')
+    @organizations = Organization.via_munson(current_user) {|o| o.fetch_from('/mine') }
   end
 
   def new
@@ -19,7 +19,7 @@ class OrganizationsController < ApplicationController
   end
 
   def create
-    @organization = Organization.new
+    @organization = Organization.via_munson(current_user) { |o| o.new }
     modifiable_attributes = [
       :name,
       :public_email,
@@ -79,8 +79,10 @@ class OrganizationsController < ApplicationController
   end
 
   def set_organization
-    organization = Organization.filter(name: params[:id]).fetch
+    organization = Organization.via_munson(current_user) { |o| o.filter(name: params[:id]).fetch }
     raise "Ambiguous Organization Name #{params[:id]}" unless organization.size == 1
-    @organization = Organization.include(:users, :groups, :admins).find(organization.first.id)
+    @organization = Organization.via_munson(current_user) do |o|
+      o.include(:users, :groups, :admins).find(organization.first.id)
+    end
   end
 end

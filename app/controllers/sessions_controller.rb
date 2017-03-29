@@ -1,5 +1,4 @@
 class SessionsController < ApplicationController
-  skip_before_action :setup_munson, except: [:omniauth_callback]
   layout 'minimal'
 
   def new
@@ -36,13 +35,40 @@ class SessionsController < ApplicationController
     name = params[:registration][:name]
     password = params[:registration][:password]
 
-    token = User.register(email, name, password)
-    if token
+    data = User.register(email, name, password)
+    if data && data['jwt']
       rurl = URI(params[:registration][:callback])
-      rurl.query = rurl.query ? rurl.query + "jwt=#{token}" : "jwt=#{token}"
+      rurl.query = rurl.query ? rurl.query + "jwt=#{data['jwt']}" : "jwt=#{data['jwt']}"
       redirect_to rurl.to_s
+    elsif data
+      @callback_url = params[:registration][:callback]
+      @email        = email
+      flash.now[:notice] = 'Email Verification Required'
+      render 'verification'
     else
       raise 'Registration Failed'
+    end
+  end
+
+  def verification
+    @callback_url = callback_url(nil)
+    @email = nil
+    flash.now[:notice] = 'Email Verification Required'
+  end
+
+  def verify
+    # TODO handle errors
+    email = params[:verify][:email]
+    password = params[:verify][:password]
+    vtoken = params[:verify][:vtoken]
+
+    data = User.email_verification(email, password, vtoken)
+    if data && data['jwt']
+      rurl = URI(params[:verify][:callback])
+      rurl.query = rurl.query ? rurl.query + "jwt=#{data['jwt']}" : "jwt=#{data['jwt']}"
+      redirect_to rurl.to_s
+    else
+      raise 'Verification Failed'
     end
   end
 
@@ -62,7 +88,7 @@ class SessionsController < ApplicationController
       if current_user['username'].downcase != auth['info']['email'].downcase
         redirect_to me_path, alert: "Identity Primary Email does not match #{current_user['username'].downcase}!"
       else      
-        ident = Identity.new(provider: auth[:provider], uid: auth[:uid])
+        ident = Identity.via_munson(current_user) { |i| i.new(provider: auth[:provider], uid: auth[:uid]) }
         ident.save
         flash[:notice] = "Now Associated with #{auth[:provider]}:#{auth[:uid]}!"
         redirect_to me_path
@@ -70,7 +96,7 @@ class SessionsController < ApplicationController
     else
       # Logging in / registering via an identity
 
-      identities = Identity.include(:user).fetch
+      identities = Identity.via_munson(current_user) { |i| i.include(:user).fetch }
       # TODO Should be moved to an API-side filter
       user_ident = identities.select {|ident| ident.provider == auth[:provider] && ident.uid == auth[:uid]}.first
 
@@ -84,7 +110,7 @@ class SessionsController < ApplicationController
         rurl = URI(session[:before_register])
         session.delete(:before_register)
         verify_token(token)
-        setup_munson
+        #setup_munson
         rurl.query = rurl.query ? rurl.query + "jwt=#{token}" : "jwt=#{token}"
         redirect_to rurl.to_s
       else

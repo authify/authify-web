@@ -16,6 +16,8 @@ Rails.application.routes.draw do
   # Logging in or signing up
   get    'signup', to: 'sessions#signup', as: :signup
   post   'register', to: 'sessions#register', as: :register
+  get    'verify', to: 'sessions#verification', as: :verification
+  post   'verify', to: 'sessions#verify', as: :verify
 
   # omniauth routes
   get    'auth/:provider/callback' => 'sessions#omniauth_callback'

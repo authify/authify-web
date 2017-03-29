@@ -34,7 +34,28 @@ class User < Munson::Resource
                    x_authify_secret: AUTHIFY_SECRET_KEY
                  }
                )
-    JSON.parse(response.body)['jwt']
+    JSON.parse(response.body)
+  end
+
+  def self.email_verification(email, password, token)
+    # TODO Make this handle errors
+    deets = {
+      'email' => email,
+      'password' => password,
+      'token' => token
+    }
+
+    response = RestClient.post(
+                 "#{AUTHIFY_API_URL}/registration/verify",
+                 deets.to_json,
+                 {
+                   content_type: :json,
+                   accept: :json,
+                   x_authify_access: AUTHIFY_ACCESS_KEY,
+                   x_authify_secret: AUTHIFY_SECRET_KEY
+                 }
+               )
+    JSON.parse(response.body)
   end
 
   def self.token_from_identity(provider, uid)

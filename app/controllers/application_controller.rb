@@ -2,7 +2,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   before_action :require_authentication
-  before_action :setup_munson
+  #before_action :setup_munson
 
   layout :user_layout
 
@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
               {'email' => user, 'password' => pass}.to_json,
               { content_type: :json, accept: :json }
     
-    session[:authenticated] = Time.now
+    #session[:authenticated] = Time.now
     JSON.parse(response.body)['jwt']
   end
 
@@ -99,8 +99,10 @@ class ApplicationController < ActionController::Base
   end
 
   def setup_munson
+    puts "Called `setup_munson`!"
+    email = current_user ? current_user['username'] : nil
     Munson.configure(url: AUTHIFY_API_URL.to_s, response_key_format: :dasherize) do |c|
-      c.use Middleware::AuthifyTrustedDelegate, email: (current_user ? current_user['username'] : nil)
+      c.use Middleware::AuthifyTrustedDelegate, email: email
     end
   end
 end

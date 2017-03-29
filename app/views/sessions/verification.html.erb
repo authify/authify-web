@@ -1,0 +1,30 @@
+<div class="row mb-3">
+  <div class="col-1"></div>
+  <div class="col-10">
+    <row>
+      <div class="form-header">
+        <%= image_tag "logo.png" %>
+      </div>
+      <%= form_for(:verify, url: verify_path, html: { class: 'form-signin' }) do |f| %>
+        <h2 class="form-signin-heading">Authify Email Verification</h2>
+        <p>
+          Please check your email and copy+paste the verification token you received below.
+        </p>
+        <%= f.label :email, class: 'sr-only' %>
+        <%= f.email_field :email, class: 'form-control', required: true, autofocus: true, placeholder: 'email', value: @email %>
+        <%= f.label :password, class: 'sr-only' %>
+        <%= f.password_field :password, class: 'form-control', required: true, placeholder: 'password' %>
+        <%= f.label :vtoken, class: 'sr-only' %>
+        <%= f.text_field :vtoken, class: 'form-control', required: true, placeholder: 'verification token' %>
+
+        <%= f.hidden_field :callback, value: @callback_url %>
+        <%= f.submit 'Verify Me!', class: "btn btn-lg btn-success btn-block" %>
+      <% end %>
+    </row>
+    <row>
+      Already verified?<br>
+      <%= link_to 'Login', login_path(callback: @callback_url), class: 'orange' %>
+    </row>
+  </div>
+  <div class="col-1"></div>
+</div "row mb-3">

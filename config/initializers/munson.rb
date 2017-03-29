@@ -43,6 +43,16 @@ class Munson::Resource
   def to_param
     new? ? nil : id.to_s
   end
+
+  def self.via_munson(user = nil)
+    opts = { url: AUTHIFY_API_URL.to_s, response_key_format: :dasherize }
+    email = user ? user['username'] : nil
+    connection = Munson::Connection.new(opts) do |c|
+      c.use Middleware::AuthifyTrustedDelegate, email: email
+    end
+    munson.connection = connection
+    yield self
+  end
 end
 
 class Munson::Collection

@@ -15,11 +15,7 @@ class User < Munson::Resource
     # TODO Make this handle errors
     deets = {
       'email' => email,
-      'name' => name,
-      'delegate' => {
-        'access' => AUTHIFY_ACCESS_KEY,
-        'secret' => AUTHIFY_SECRET_KEY
-      }
+      'name' => name
     }
     deets['password'] = password if password
     if omniauth_stuff
@@ -28,9 +24,16 @@ class User < Munson::Resource
       deets['via']['uid'] = omniauth_stuff[:uid]
     end
     raise "Unable to Register: Missing auth details" unless password || omniauth_stuff
-    response = RestClient.post "#{AUTHIFY_API_URL}/registration/signup",
-              deets.to_json,
-              { content_type: :json, accept: :json }
+    response = RestClient.post(
+                 "#{AUTHIFY_API_URL}/registration/signup",
+                 deets.to_json,
+                 {
+                   content_type: :json,
+                   accept: :json,
+                   x_authify_access: AUTHIFY_ACCESS_KEY,
+                   x_authify_secret: AUTHIFY_SECRET_KEY
+                 }
+               )
     JSON.parse(response.body)['jwt']
   end
 
@@ -38,15 +41,18 @@ class User < Munson::Resource
     # TODO Make this handle errors
     deets = {
       'provider' => provider,
-      'uid' => uid,
-      'delegate' => {
-        'access' => AUTHIFY_ACCESS_KEY,
-        'secret' => AUTHIFY_SECRET_KEY
-      }
+      'uid' => uid
     }
-    response = RestClient.post "#{AUTHIFY_API_URL}/jwt/token",
-              deets.to_json,
-              { content_type: :json, accept: :json }
+    response = RestClient.post(
+                 "#{AUTHIFY_API_URL}/jwt/token",
+                 deets.to_json,
+                 {
+                   content_type: :json,
+                   accept: :json,
+                   x_authify_access: AUTHIFY_ACCESS_KEY,
+                   x_authify_secret: AUTHIFY_SECRET_KEY
+                 }
+               )
     JSON.parse(response.body)['jwt']
   end
 end

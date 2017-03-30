@@ -56,7 +56,7 @@
               <%= icon('github') %> Add GitHub
             <% end %>
           <% end %>
-          <% if google_enabled? && !@identities.map {|i| i.attributes[:provider] }.include?('google_oath2') %>
+          <% if google_enabled? && !@identities.map {|i| i.attributes[:provider] }.include?('google_oauth2') %>
             <%= link_to '/auth/google_oauth2', class: 'btn btn-google' do %>
               <%= icon('google') %> Add Google
             <% end %>

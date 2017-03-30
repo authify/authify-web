@@ -52,8 +52,13 @@
         <br>
         <p class="card-text">
           <% if github_enabled? && !@identities.map {|i| i.attributes[:provider] }.include?('github') %>
-            <%= link_to '/auth/github', class: 'btn bg-orange' do %>
+            <%= link_to '/auth/github', class: 'btn btn-github' do %>
               <%= icon('github') %> Add GitHub
+            <% end %>
+          <% end %>
+          <% if google_enabled? && !@identities.map {|i| i.attributes[:provider] }.include?('google_oath2') %>
+            <%= link_to '/auth/google_oauth2', class: 'btn btn-google' do %>
+              <%= icon('google') %> Add Google
             <% end %>
           <% end %>
         </p>

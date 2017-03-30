@@ -105,6 +105,7 @@ class SessionsController < ApplicationController
       else
         User.register(auth['info']['email'], auth['info']['name'], nil, auth)
       end
+      token = token['jwt'] if token.is_a?(Hash) && token['jwt']
 
       if token
         rurl = URI(session[:before_register])

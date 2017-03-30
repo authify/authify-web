@@ -8,7 +8,7 @@ module Middleware
     def call(env)
       env[:request_headers]['X-Authify-Access'] = AUTHIFY_ACCESS_KEY
       env[:request_headers]['X-Authify-Secret'] = AUTHIFY_SECRET_KEY
-      env[:request_headers]['X-Authify-On-Behalf-Of'] = @options[:email]
+      env[:request_headers]['X-Authify-On-Behalf-Of'] = @options[:email] if @options[:email]
       @app.call env
     end
   end

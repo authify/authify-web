@@ -6,12 +6,19 @@
         <%= image_tag "logo.png" %>
         <h2 class="form-signin-heading">Authify Service</h2>
         <br>
-        <% if ENV['GITHUB_KEY'] %>
-        <%= link_to '/auth/github', class: 'btn btn-block btn-social btn-github thin' do %>
-          <%= icon('github')  %> Login with GitHub
-        <% end %>
-        <br>
-        <h3 class="form-signin-heading">OR</h3>
+        <% if ENV['GITHUB_KEY'] || ENV['GOOGLE_CLIENT_ID'] %>
+          <% if ENV['GITHUB_KEY'] %>
+            <%= link_to '/auth/github', class: 'btn btn-block btn-social btn-github thin' do %>
+              <%= icon('github')  %> Login with GitHub
+            <% end %>
+          <% end %>
+          <% if ENV['GOOGLE_CLIENT_ID'] %>
+            <%= link_to '/auth/google_oauth2', class: 'btn btn-block btn-social btn-google thin' do %>
+              <%= icon('google')  %> Login with Google
+            <% end %>
+          <% end %>
+          <br>
+          <h3 class="form-signin-heading">OR</h3>
         <% end %>
       </div>
     </row>
@@ -29,9 +36,18 @@
     <row>
       No account yet? No problem!<br>
       <%= link_to 'Sign up', signup_path(callback: params[:callback]), class: 'orange' %> 
-      <% if ENV['GITHUB_KEY'] %>
-      or login via <%= link_to '/auth/github', class: 'orange' do %>
-        <%= icon('github-alt') %> GitHub
+      <% if ENV['GITHUB_KEY'] || ENV['GOOGLE_CLIENT_ID']%>
+      or login via 
+        <% if ENV['GITHUB_KEY'] %>
+          <%= link_to '/auth/github', class: 'orange' do %>
+            <%= icon('github-alt') %> GitHub
+          <% end %>
+        <% end %>
+        <% if ENV['GOOGLE_CLIENT_ID'] %>
+          or 
+          <%= link_to '/auth/google_oauth2', class: 'orange' do %>
+            <%= icon('google') %> Google
+          <% end %>
         <% end %>
       <% end %>
     </row>

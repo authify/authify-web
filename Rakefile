@@ -4,3 +4,10 @@
 require_relative 'config/application'
 
 Rails.application.load_tasks
+
+namespace :docker do
+  desc 'Build a fresh docker image'
+  task :build do
+    exec 'docker build -t authify/web .'
+  end
+end

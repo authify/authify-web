@@ -27,6 +27,8 @@ Authify::Web supports the following configuration settings, managed via environm
 * `SECRET_KEY_BASE` - The secret key used by Rails to sign and verify cookies. This needs to be the same across **all** instances of Authify::Web (meaning all instances serving traffic for the same front-end URL). Make this something very long and as random as possible.
 * `GITHUB_KEY` - Provide a GitHub key to enable the GitHub integration (for signing up and signing in via GitHub). See the [GitHub Applications Page](https://github.com/settings/applications) for more information. This is optional.
 * `GITHUB_SECRET` - The GitHub secret used to complete the GitHub integration. Required only if `GITHUB_KEY` is provided.
+* `GOOGLE_CLIENT_ID` - Provide a Google Oauth2 Client ID to enable the Google integration (for signing up and signing in via Google). See the [Google API Setup Page](https://console.developers.google.com/) or the [Plugin Author's GitHub Page](https://github.com/zquestz/omniauth-google-oauth2) for more information. This is optional.
+* `GOOGLE_CLIENT_SECRET` - The Google Client secret used to complete the Google integration. Required only if `GOOGLE_CLIENT_ID` is provided.
 
 ### UI Customization
 

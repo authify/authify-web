@@ -2,7 +2,7 @@
           <tr>
             <td><%= key.attributes[:access_key] %></td>
             <td>
-              <%= link_to '#' do %>
+              <%= link_to remove_api_key_path(key.id), method: :post, data: { no_turbolink: true, turbolinks: false } do %>
                 <%= icon('trash') %>
               <% end %>
             </td>

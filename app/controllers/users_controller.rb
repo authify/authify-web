@@ -7,7 +7,6 @@ class UsersController < ApplicationController
     @user = User.via_munson(current_user) do |u|
       u.include(:apikeys, :identities).find(current_user['uid'])
     end
-    #p @user
     @identities = @user.identities
     @apikeys = @user.apikeys
   end
@@ -16,6 +15,13 @@ class UsersController < ApplicationController
   def add_api_key
     @api_key = APIKey.via_munson(current_user) { |a| a.new }
     @api_key.save
+  end
+
+  # POST /users/remove_api_key
+  def remove_api_key
+    @api_key = APIKey.via_munson(current_user) { |a| a.find(params[:id]) }
+    @api_key.destroy
+    redirect_to me_path
   end
 
   def reset_password

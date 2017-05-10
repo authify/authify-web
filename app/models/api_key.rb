@@ -1,4 +1,4 @@
-class APIKey < Munson::Resource
+class APIKey < McCracken::Resource
   self.type = :apikeys
   has_one :user
 

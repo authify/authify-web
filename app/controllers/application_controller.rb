@@ -2,7 +2,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   before_action :require_authentication
-  #before_action :setup_munson
+  #before_action :setup_mccracken
 
   layout :user_layout
 
@@ -11,7 +11,7 @@ class ApplicationController < ActionController::Base
     response = RestClient.post "#{AUTHIFY_API_URL}/jwt/token",
               {'email' => user, 'password' => pass}.to_json,
               { content_type: :json, accept: :json }
-    
+
     #session[:authenticated] = Time.now
     JSON.parse(response.body)['jwt']
   end
@@ -83,7 +83,7 @@ class ApplicationController < ActionController::Base
 
   def user_layout
     admin? ? 'admin' : 'application'
-  end     
+  end
 
   def verify_token(token)
     options = {
@@ -98,10 +98,10 @@ class ApplicationController < ActionController::Base
     session[:user] = payload['user']
   end
 
-  def setup_munson
-    puts "Called `setup_munson`!"
+  def setup_mccracken
+    puts 'Called `mccracken`!'
     email = current_user ? current_user['username'] : nil
-    Munson.configure(url: AUTHIFY_API_URL.to_s, response_key_format: :dasherize) do |c|
+    McCracken.configure(url: AUTHIFY_API_URL.to_s, response_key_format: :dasherize) do |c|
       c.use Middleware::AuthifyTrustedDelegate, email: email
     end
   end

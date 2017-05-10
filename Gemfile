@@ -57,9 +57,10 @@ gem 'font-awesome-sass', '~> 4.7.0'
 gem 'bootstrap', '~> 4.0.0.alpha6'
 gem 'redis-rails', '~> 5'
 gem 'json_api_client', '~> 1.4'
-#gem 'munson'
-gem 'munson',
-  git: 'https://github.com/jgnagy/munson.git', branch: 'feature/support-deletion'
+
+gem 'mccracken',
+    git: 'https://github.com/jgnagy/mccracken.git',
+    branch: 'develop'
 gem 'rest-client', '~> 1.8'
 gem 'addressable', '~> 2.4'
 gem 'will_paginate', '~> 3.1'

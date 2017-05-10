@@ -1,4 +1,4 @@
-class Organization < Munson::Resource
+class Organization < McCracken::Resource
   self.type = :organizations
 
   has_many :users

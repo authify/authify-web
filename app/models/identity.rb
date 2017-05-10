@@ -1,4 +1,4 @@
-class Identity < Munson::Resource
+class Identity < McCracken::Resource
   self.type = :identities
   has_one :user
 

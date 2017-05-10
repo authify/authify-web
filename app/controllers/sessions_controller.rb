@@ -13,7 +13,7 @@ class SessionsController < ApplicationController
     rescue RestClient::Unauthorized => e
       nil
     end
-    
+
     if token
       rurl = URI(params[:session][:callback])
       rurl.query = rurl.query ? rurl.query + "jwt=#{token}" : "jwt=#{token}"
@@ -74,7 +74,7 @@ class SessionsController < ApplicationController
 
   def callback
     verify_token params[:jwt]
-    setup_munson
+    setup_mccracken
     next_path = session[:before_login]
     session.delete(:before_login)
     redirect_to next_path ? next_path : root_path
@@ -87,8 +87,8 @@ class SessionsController < ApplicationController
       # Adding a new identity to an existing user
       if current_user['username'].downcase != auth['info']['email'].downcase
         redirect_to me_path, alert: "Identity Primary Email does not match #{current_user['username'].downcase}!"
-      else      
-        ident = Identity.via_munson(current_user) { |i| i.new(provider: auth[:provider], uid: auth[:uid]) }
+      else
+        ident = Identity.via_mccracken(current_user) { |i| i.new(provider: auth[:provider], uid: auth[:uid]) }
         ident.save
         flash[:notice] = "Now Associated with #{auth[:provider]}:#{auth[:uid]}!"
         redirect_to me_path
@@ -96,7 +96,7 @@ class SessionsController < ApplicationController
     else
       # Logging in / registering via an identity
 
-      identities = Identity.via_munson(current_user) { |i| i.include(:user).fetch }
+      identities = Identity.via_mccracken(current_user) { |i| i.include(:user).fetch }
       # TODO Should be moved to an API-side filter
       user_ident = identities.select {|ident| ident.provider == auth[:provider] && ident.uid == auth[:uid]}.first
 

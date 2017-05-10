@@ -1,4 +1,4 @@
-class User < Munson::Resource
+class User < McCracken::Resource
   self.type = :users
 
   has_many :groups

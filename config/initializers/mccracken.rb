@@ -8,7 +8,7 @@ module McCracken
       opts = { url: AUTHIFY_API_URL.to_s, response_key_format: :dasherize }
       email = user ? user['username'] : nil
       connection = McCracken::Connection.new(opts) do |c|
-        c.use Middleware::AuthifyTrustedDelegate, email: email
+        c.use ::Middleware::AuthifyTrustedDelegate, email: email
       end
       mccracken.connection = connection
       yield self

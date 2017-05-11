@@ -2,6 +2,7 @@ require 'auth_middleware'
 McCracken.configure(url: AUTHIFY_API_URL.to_s)
 Linguistics.use(:en)
 
+require 'mccracken/compat/active_record'
 module McCracken
   class Resource
     def self.via_mccracken(user = nil)
